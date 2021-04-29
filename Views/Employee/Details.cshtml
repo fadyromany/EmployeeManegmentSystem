@@ -1,0 +1,28 @@
+﻿@*@using EmployeeManegmentSystem.Controllers;*@
+@*@model EmployeeManegmentSystem.Models.Employee;*@
+@model EmployeeManegmentSystem.View_Models.EmployeeDetailsVM;
+
+
+
+<h1>@Model.PageTitle</h1>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id </th>
+            <th>Name </th>
+            <th> Email</th>
+            <th>Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Employee.Id</td>
+            <td>@Model.Employee.Name</td>
+            <td>@Model.Employee.Email</td>
+            <td>@Model.Employee.Department</td>
+        </tr>
+    </tbody>
+</table>
+

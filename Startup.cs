@@ -45,7 +45,7 @@ namespace EmployeeManegmentSystem
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -54,6 +54,16 @@ namespace EmployeeManegmentSystem
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default2",
+                    pattern: "{ss}/{controller=Home}/{action=Index}/{id?}"); //make customize ROUTE
+            });
+
+           
+
         }
     }
 }
