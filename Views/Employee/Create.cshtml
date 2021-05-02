@@ -1,0 +1,47 @@
+﻿@using EmployeeManegmentSystem.Controllers;
+@model Employee
+
+@{
+    ViewBag.Tittle="Create Employee";
+}
+<form asp-controller="Employee" asp-action="Create" method="post" class="mt-3">
+    <div class="form-group row">
+        <label asp-for="Name" class="col-sm-1 col-form-label"></label>
+        <div  class=" col-sm-3">
+            <input asp-for="Name" placeholder="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Email" class="col-sm-1 col-form-label"></label>
+        <div class=" col-sm-3">
+            <input asp-for="Email" placeholder="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Department" class="col-sm-1 col-form-label"></label>
+        <div class=" col-sm-3">
+            <select asp-for="Department" asp-items="Html.GetEnumSelectList<DeptEnum>()" class="form-control">
+                <option value="">Please Select</option>
+            </select>
+            <span asp-validation-for="Department" class="text-danger"></span>
+
+        </div>
+    </div>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+    
+
+
+</form>

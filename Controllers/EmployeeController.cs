@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManegmentSystem.Controllers
 {
-    [Route("employee")]
+    //[Route("employee")]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
@@ -19,9 +19,9 @@ namespace EmployeeManegmentSystem.Controllers
         }
 
         // GET: Employees
-        [Route("")]
-        [Route("Index")]
-        [Route("~//")]
+        //[Route("")]
+        //[Route("Index")]
+        //[Route("~//")]
         public ViewResult Index()
         {
             ViewBag.Pagedetails = "All Employees Details";
@@ -31,7 +31,7 @@ namespace EmployeeManegmentSystem.Controllers
         }
 
         // GET: Employee/Details/5
-        [Route("/employee/details/{id?}")]
+        //[Route("/employee/details/{id?}")]
         public ViewResult Details(int? id)
         {
             EmployeeDetailsVM employeeVM = new EmployeeDetailsVM()
@@ -46,24 +46,26 @@ namespace EmployeeManegmentSystem.Controllers
         }
 
         // GET: Employee/Create
-        public ActionResult Create()
+        //[Route("/employee/create")]
+        [HttpGet]
+        public ViewResult Create()
         {
+            ViewBag.Tittle = "create employee";
             return View();
         }
 
         // POST: Employee/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public IActionResult Create(Employee employee)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            { 
+            Employee newemp = _employeeRepository.Add(employee);
+            return RedirectToAction("Details",new {id=newemp.Id });
             }
-            catch
-            {
-                return View();
-            }
+            return View();
+
         }
 
         // GET: Employee/Edit/5
@@ -90,6 +92,7 @@ namespace EmployeeManegmentSystem.Controllers
         // GET: Employee/Delete/5
         public ActionResult Delete(int id)
         {
+            
             return View();
         }
 
