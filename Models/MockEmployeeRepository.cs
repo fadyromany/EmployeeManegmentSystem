@@ -36,5 +36,11 @@ namespace EmployeeManegmentSystem.Models
         {
             return _employeeList.FirstOrDefault(e => e.Id == id);
         }
+
+        public IEnumerable<Employee> RemoveEmp(Employee employee)
+        {
+            _employeeList.Remove(employee);
+            return _employeeList;
+        }
     }
 }
