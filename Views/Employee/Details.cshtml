@@ -26,6 +26,10 @@
     </tbody>
 </table>*@
 
+@{ 
+    var photopasth= "~/images/"+(Model.Employee.PhotoPath ??"noimage.jpg");
+}
+
 <div class="row justify-content-center m-3">
     <div class="col-sm-8">
         <div class="card">
@@ -34,7 +38,7 @@
             </div>
 
             <div class="card-body text-center">
-                <img class="card-img-top" src="~/images/noimage.jpg" />
+                <img class="card-img-top" src="@photopasth" asp-append-version="true" />
 
                 <h4>Employee ID : @Model.Employee.Id</h4>
                 <h4>Email : @Model.Employee.Email</h4>

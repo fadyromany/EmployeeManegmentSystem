@@ -72,3 +72,7 @@ body {
 .btn {
     width: 75px;
 }
+.imagerectangle {
+    height: 200px;
+    width: auto;
+}

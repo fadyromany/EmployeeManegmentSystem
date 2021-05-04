@@ -1,9 +1,11 @@
 ﻿using EmployeeManegmentSystem.Models;
 using EmployeeManegmentSystem.View_Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,9 +15,13 @@ namespace EmployeeManegmentSystem.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
-        public EmployeeController(IEmployeeRepository employeeRepository)
+        private readonly IHostingEnvironment hostingEnvironment;
+
+        public EmployeeController(IEmployeeRepository employeeRepository ,
+                                   IHostingEnvironment hostingEnvironment)
         {
             _employeeRepository = employeeRepository;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Employees
@@ -57,13 +63,30 @@ namespace EmployeeManegmentSystem.Controllers
         // POST: Employee/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public IActionResult Create(Employee employee)
+        public IActionResult Create(EmployeeCreateVM model)
         {
             if (ModelState.IsValid)
-            { 
-            Employee newemp = _employeeRepository.Add(employee);
-            return RedirectToAction("Details",new {id=newemp.Id });
+            {
+                string uniqeFileName = null;
+                if (model.Photo != null)
+                {
+                    string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath , "images"); // to save in webroot/images
+                    uniqeFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;//unique files name
+                    string filePath = Path.Combine(uploadFolder, uniqeFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+                Employee newemp = new Employee
+                {
+                    Name = model.Name,
+                    Email = model.Email,
+                    Department = model.Department,
+                    PhotoPath = uniqeFileName
+
+                };
+                _employeeRepository.Add(newemp);
+                return RedirectToAction("Details", new { id = newemp.Id });
             }
+
             return View();
 
         }
