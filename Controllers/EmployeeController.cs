@@ -67,14 +67,7 @@ namespace EmployeeManegmentSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniqeFileName = null;
-                if (model.Photo != null)
-                {
-                    string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath , "images"); // to save in webroot/images
-                    uniqeFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;//unique files name
-                    string filePath = Path.Combine(uploadFolder, uniqeFileName);
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
+                string uniqeFileName = ProcessUploadFile(model);
                 Employee newemp = new Employee
                 {
                     Name = model.Name,
@@ -92,24 +85,62 @@ namespace EmployeeManegmentSystem.Controllers
         }
 
         // GET: Employee/Edit/5
+        [HttpGet]
         public ActionResult Edit(int id)
         {
-            return View();
+            Employee emp = _employeeRepository.GetEmployee(id);
+            EmployeeEditVM employeeEditVM = new EmployeeEditVM
+            {
+                Id = id,
+                Name = emp.Name,
+                Email = emp.Email,
+                Department = emp.Department,
+                Existingphotopath = emp.PhotoPath
+            };
+            return View(employeeEditVM);
         }
 
         // POST: Employee/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(EmployeeEditVM model)
         {
-            try
+            if (ModelState.IsValid) // its mean no validation Error
             {
-                return RedirectToAction(nameof(Index));
+                Employee emp = _employeeRepository.GetEmployee(model.Id);
+                emp.Name = model.Name;
+                emp.Email = model.Email;
+                emp.Department = model.Department;
+                if (model.Photo!=null)
+                {
+                    if(model.Existingphotopath!=null)
+                    {
+                        string filePath = Path.Combine(hostingEnvironment.WebRootPath, "images", model.Existingphotopath);
+                        System.IO.File.Delete(filePath);
+                    }
+                    emp.PhotoPath = ProcessUploadFile(model);
+
+                }
+
+                _employeeRepository.Update(emp);
+                return RedirectToAction("Index");
             }
-            catch
+
+            return View();
+        }
+
+        private string ProcessUploadFile(EmployeeCreateVM model)
+        {
+            string uniqeFileName = null;
+            if (model.Photo != null)
             {
-                return View();
+                string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "images"); // to save in webroot/images
+                uniqeFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;//unique files name
+                string filePath = Path.Combine(uploadFolder, uniqeFileName);
+                model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
             }
+
+            return uniqeFileName;
         }
 
         // GET: Employee/Delete/5
