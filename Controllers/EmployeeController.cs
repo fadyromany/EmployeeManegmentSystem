@@ -40,9 +40,16 @@ namespace EmployeeManegmentSystem.Controllers
         //[Route("/employee/details/{id?}")]
         public ViewResult Details(int? id)
         {
+            Employee emp = _employeeRepository.GetEmployee(id.Value);
+            if(emp==null)
+            {
+                Response.StatusCode = 404;
+                return View("EmployeeNotFound",id.Value);  
+            }
+
             EmployeeDetailsVM employeeVM = new EmployeeDetailsVM()
             {
-                Employee= _employeeRepository.GetEmployee(id??1),
+                Employee= emp,
                 PageTitle= "Employee Details"
             };
             //Employee model = _employeeRepository.GetEmployee(id);
