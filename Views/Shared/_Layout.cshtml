@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity;
-@inject SignInManager<IdentityUser> SignInManeger;
+@inject SignInManager<IdentityUser> SignInManager;
 
 
 <!DOCTYPE html>
@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     <link href="~/css/site.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -39,12 +41,13 @@
                 </ul>
 
                 <ul class="navbar-nav ml-auto">
-                    @if (SignInManeger.IsSignedIn(User))
+                    @if (SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
                             <form method="post" asp-controller="account" asp-action="logout">
-                                <button type="submit" class="nav-link btn btn-link py-0" style="width:auto">
-                                    LogOut @User.Identity.Name
+                                <button type="submit" style="width:auto"
+                                        class="nav-link btn btn-link py-0">
+                                    Logout @User.Identity.Name
                                 </button>
                             </form>
                         </li>
@@ -52,12 +55,15 @@
                     else
                     {
                         <li class="nav-item">
-                            <a asp-action="Register" asp-controller="account" class="nav-link"> Register </a>
+                            <a class="nav-link" asp-controller="account" asp-action="register">
+                                Register
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-action="login" asp-controller="account" class="nav-link"> Login </a>
+                            <a class="nav-link" asp-controller="account" asp-action="login">
+                                Login
+                            </a>
                         </li>
-
                     }
 
 

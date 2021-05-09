@@ -1,5 +1,6 @@
 ﻿using EmployeeManegmentSystem.Models;
 using EmployeeManegmentSystem.View_Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace EmployeeManegmentSystem.Controllers
 {
     //[Route("employee")]
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
@@ -28,6 +30,7 @@ namespace EmployeeManegmentSystem.Controllers
         //[Route("")]
         //[Route("Index")]
         //[Route("~//")]
+        [AllowAnonymous]
         public ViewResult Index()
         {
             ViewBag.Pagedetails = "All Employees Details";
@@ -38,6 +41,7 @@ namespace EmployeeManegmentSystem.Controllers
 
         // GET: Employee/Details/5
         //[Route("/employee/details/{id?}")]
+        [AllowAnonymous]
         public ViewResult Details(int? id)
         {
             Employee emp = _employeeRepository.GetEmployee(id.Value);

@@ -1,4 +1,5 @@
 ﻿using EmployeeManegmentSystem.View_Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -59,21 +60,33 @@ namespace EmployeeManegmentSystem.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginVM model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginVM model,string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password,model.RememberMe,false);
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password,model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    
+                    if(!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    else
+                    {
+
                     return RedirectToAction("index", "employee");
+
+                    }
+                    
                 }
 
                 ModelState.AddModelError("", "Invalied LogIn !");
