@@ -2,6 +2,7 @@ using EmployeeManegmentSystem.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,8 @@ namespace EmployeeManegmentSystem
         {
             services.AddDbContextPool<EmployeeManegmentSystemDbContext>(
                 options=>options.UseSqlServer(_config.GetConnectionString("EmployeeDbConnection")));
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<EmployeeManegmentSystemDbContext>();
             services.AddControllersWithViews();
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
         }

@@ -4,14 +4,16 @@ using EmployeeManegmentSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmployeeManegmentSystem.Migrations
 {
     [DbContext(typeof(EmployeeManegmentSystemDbContext))]
-    partial class EmployeeManegmentSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210508055630_addIdetity")]
+    partial class addIdetity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
