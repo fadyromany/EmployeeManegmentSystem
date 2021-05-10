@@ -1,5 +1,6 @@
 using EmployeeManegmentSystem.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -18,6 +19,7 @@ namespace EmployeeManegmentSystem
 {
     public class Startup
     {
+
         private IConfiguration _config;
 
         public Startup(IConfiguration configuration)
@@ -44,6 +46,22 @@ namespace EmployeeManegmentSystem
 
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddOptions();
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "400483622979-u57svfuahhifndrd9p10f2b2l6r68pu4.apps.googleusercontent.com";
+                    options.ClientSecret = "GcyaBYbupBB59qV5qjupsMxg";
+                    
+                   
+
+                });
+
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = "Authentication:Facebook:AppId";
+                options.AppSecret = "Authentication:Facebook:AppSecret";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
