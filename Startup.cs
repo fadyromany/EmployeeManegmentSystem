@@ -59,8 +59,8 @@ namespace EmployeeManegmentSystem
 
             services.AddAuthentication().AddFacebook(options =>
             {
-                options.AppId = "Authentication:Facebook:AppId";
-                options.AppSecret = "Authentication:Facebook:AppSecret";
+                options.AppId = "772023023513871";
+                options.AppSecret = "4392ef7950d00073fa4872dccf9a3eca";
             });
         }
 
